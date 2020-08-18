@@ -7,12 +7,15 @@ function App() {
   const [listTask, setListTask] = useState([])
   const [editMode, setEditMode] = useState(false)
   const [taskId, setTaskId] = useState('')
+  const [error, setError] = useState(null)
   const addTask = (e) => {
     e.preventDefault();
     if(!task.trim()){
       console.log("Debes ingresar la tarea")
+      setError("Ingrese la tarea...")
       return
     }
+    setError(null)
     console.log("La tarea es: ", task)
     setListTask([
       {
@@ -43,12 +46,14 @@ function App() {
     setEditMode(true)
     setTask(task.task)
     setTaskId(task.id)
+    setError(null)
   }
 
   const updateTask = (e) => {
     e.preventDefault();
     if(!task.trim()){
       console.log("Debes ingresar la tarea")
+      setError("Ingrese la tarea...")
       return
     }
     console.log("La tarea es: ", task)
@@ -61,6 +66,7 @@ function App() {
     setTask('');
     setTaskId('')
     setEditMode(false)
+    setError(null)
     e.target.reset();
   }
 
@@ -108,6 +114,9 @@ function App() {
             {editMode ? 'Editar Tarea' : 'Agregar Tarea' }
           </h4>
           <form onSubmit={ editMode ? updateTask : addTask } >
+            {
+              error ? <span className='text-danger'>{error}</span> : null
+            }
             <input 
               type="text" 
               className="form-control mb-2"
